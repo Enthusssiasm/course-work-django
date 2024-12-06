@@ -1,0 +1,110 @@
+{% extends 'main/layout.html' %}
+
+{% block content %}
+    <h1 class="title">Главная страница курсовой работы</h1>
+
+    <div class="given-by-option">
+        <h3>Задано по варианту:</h3>
+        <p>Количество рабочих комбинаций кода - M = <span id="M"></span></p>
+        <p>Способ задания кода - H матрица</p>
+        <p>Значение информационной части в десятичном виде - U = (12mod7) + 1 = <span id="U"></span><sub>10</sub> = 0110<sub>2</sub></p>
+        <p>Вариант реализации кодера ГСК - <span id="encoder"></span></p>
+        <p>Вариант реализации декодера ГСК - <span id="decoder"></span></p>
+        <div class="matrix">
+            <span>Вид матрицы P</span>
+            <span>=</span>
+            <div class="matrix-info">
+                {% for row in decimal_matrix_P %}
+                    <span>{{ row }}</span>
+                {% endfor %}
+            </div>
+            <span>=</span>
+            <div class="binary-matrix-info">
+                {% for row in binary_matrix_P %}
+                    {% for cell in row %}
+                        <span>{{ cell }}</span>
+                    {% endfor %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <div class="code-characteristics">
+        <h3>Характеристики кода:</h3>
+        <p>Длина информационной части - {{ m }}</p>
+        <p>Количество избыточных символов - k = {{ k }}</p>
+        <p>Минимальное кодовое расстояние - d<sub>min</sub> = </p>
+        <p>Избыточность - R = </p>
+        <p>Вероятностные характеристики</p>
+    </div>
+
+    <div class="calculation">
+        <h3>Расчетная работа:</h3>
+        <div class="matrix">
+            <span>Транспонированная матрица P</span>
+            <span>=</span>
+            <div class="binary-transposed-matrix-info">
+                {% for row in transposed_P %}
+                    {% for cell in row %}
+                        <span>{{ cell }}</span>
+                    {% endfor %}
+                {% endfor %}
+            </div>
+        </div>
+        <div class="matrix">
+            <span>Матрица H</span>
+            <span>=</span>
+            <div class="h-matrix">
+                {% for row in H_matrix %}
+                    {% for cell in row %}
+                        <span>{{ cell }}</span>
+                    {% endfor %}
+                {% endfor %}
+            </div>
+        </div>
+        <div>
+            <span>Операторы кодирования:</span>
+            <ul>
+                {% for idx, operator in encoding_operators %}
+                    <li>c{{ idx }} = {{ operator }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div>
+            <span>Синдромы</span>
+            <ul>
+                {% for idx, operator in syndrome_operators %}
+                    <li>S{{ idx }} = {{ operator }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div>
+            <span>Таблица синдромов</span>
+            <table border="1">
+                <tr>
+                    <th>Разряд</th>
+                    <th>Значение</th>
+                </tr>
+                {% for key, value in syndrome_table.items %}
+                    <tr>
+                        <td>{{ key }}</td>
+                        <td>{{ value }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+        <div>
+            <span>Ввод информационного вектора</span>
+            <form method="post">
+                {% csrf_token %}
+                <label for="information_vector">Входной информационный вектор: U = </label>
+                <input type="text" id="information_vector" name="information_vector" placeholder="Введите..." required>
+                <button type="submit">Вычислить</button>
+            </form>
+            {% if redundant_bits %}
+                <span>Избыточные символы</span>
+                <p>Групповой кодовый вектор: {{ group_code_vector  }}</p>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

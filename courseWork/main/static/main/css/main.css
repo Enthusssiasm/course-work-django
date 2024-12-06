@@ -1,0 +1,50 @@
+body {
+    background: gray;
+    font-family: Arial, sans-serif;
+}
+
+.title {
+    text-align: center;
+}
+
+.given-by-option {
+    padding: 20px;
+}
+
+.code-characteristics {
+    padding: 20px;
+}
+
+.matrix {
+    display: flex;
+    span {
+        align-self: center;
+    }
+}
+
+.matrix-info {
+    display: grid;
+    grid-template-rows: repeat(4, 1fr);
+}
+
+.binary-matrix-info {
+    display: grid;
+    grid-template-rows: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.binary-transposed-matrix-info {
+    display: grid;
+    grid-template-rows: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.calculation {
+    padding: 20px;
+}
+
+.h-matrix {
+    display: grid;
+    grid-template-rows: repeat(3, 1fr);
+    grid-template-columns: repeat(7, 1fr);
+}
