@@ -4,12 +4,12 @@
     <h1 class="title">Главная страница курсовой работы</h1>
 
     <div class="given-by-option">
-        <h3>Задано по варианту:</h3>
-        <p>Количество рабочих комбинаций кода - M = <span id="M"></span></p>
+        <h3>Задано по варианту {{ variant }}:</h3>
+        <p>Количество рабочих комбинаций кода - M = {{ M }}</p>
         <p>Способ задания кода - H матрица</p>
-        <p>Значение информационной части в десятичном виде - U = (12mod7) + 1 = <span id="U"></span><sub>10</sub> = 0110<sub>2</sub></p>
-        <p>Вариант реализации кодера ГСК - <span id="encoder"></span></p>
-        <p>Вариант реализации декодера ГСК - <span id="decoder"></span></p>
+        <p>Значение информационной части в десятичном виде - U = (12mod7) + 1 = {{ U }}<sub>10</sub> = {{ binary_U }}<sub>2</sub></p>
+        <p>Вариант реализации кодера ГСК - {{ encoder }}</p>
+        <p>Вариант реализации декодера ГСК - {{ decoder }}</p>
         <div class="matrix">
             <span>Вид матрицы P</span>
             <span>=</span>
@@ -71,7 +71,7 @@
             </ul>
         </div>
         <div>
-            <span>Синдромы</span>
+            <span>Синдромы:</span>
             <ul>
                 {% for idx, operator in syndrome_operators %}
                     <li>S{{ idx }} = {{ operator }}</li>
@@ -79,7 +79,7 @@
             </ul>
         </div>
         <div>
-            <span>Таблица синдромов</span>
+            <span>Таблица синдромов:</span>
             <table border="1">
                 <tr>
                     <th>Разряд</th>
@@ -92,19 +92,42 @@
                     </tr>
                 {% endfor %}
             </table>
+            <p></p>
         </div>
         <div>
             <span>Ввод информационного вектора</span>
             <form method="post">
                 {% csrf_token %}
+                <input type="hidden" name="group_code_vector" value="{{ group_code_vector }}">
                 <label for="information_vector">Входной информационный вектор: U = </label>
                 <input type="text" id="information_vector" name="information_vector" placeholder="Введите..." required>
                 <button type="submit">Вычислить</button>
             </form>
-            {% if redundant_bits %}
-                <span>Избыточные символы</span>
-                <p>Групповой кодовый вектор: {{ group_code_vector  }}</p>
+            {% if redundant_bits or group_code_vector %}
+                <span>Групповой кодовый вектор: {{ group_code_vector  }}</span>
             {% endif %}
+            <p></p>
+        </div>
+        <div>
+            <span>Ввод вектора ошибки</span>
+            <form method="post">
+                {% csrf_token %}
+                <input type="hidden" name="group_code_vector" value="{{ group_code_vector }}">
+                <label for="error_vector">Вектор ошибки: V = </label>
+                <input type="text" id="error_vector" name="error_vector" placeholder="Введите..." required>
+                <button type="submit">Вычислить</button>
+            </form>
+            {% if group_code_with_error %}
+                <span>Вектор группового кода с ошибкой: {{ group_code_with_error }}</span>
+            {% endif %}
+            <p></p>
+        </div>
+        <div>
+            <form method="post">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="clear">
+                <button type="submit">Очистить данные</button>
+            </form>
         </div>
     </div>
 {% endblock %}

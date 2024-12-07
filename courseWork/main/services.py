@@ -81,3 +81,10 @@ def calculate_redundant_bits(encoding_indices, information_bits):
         redundant_bits.append(0 if count_ones % 2 == 0 else 1)
     group_code_vector = ''.join(map(str, information_bits)) + ''.join(map(str, redundant_bits))
     return redundant_bits, group_code_vector
+
+
+def generate_error_code(group_code_vector, error_vector):
+    # Вектор группового кода с ошибкой
+    group_code_with_error = [str(int(group_code_vector[i]) ^ int(error_vector[i])) for i in range(len(group_code_vector))]
+    return group_code_with_error
+
