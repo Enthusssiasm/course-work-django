@@ -31,11 +31,9 @@
 
     <div class="code-characteristics">
         <h3>Характеристики кода:</h3>
-        <p>Длина информационной части - {{ m }}</p>
+        <p>Длина кода - n = 7</p>
+        <p>Длина информационной части - m = {{ m }}</p>
         <p>Количество избыточных символов - k = {{ k }}</p>
-        <p>Минимальное кодовое расстояние - d<sub>min</sub> = </p>
-        <p>Избыточность - R = </p>
-        <p>Вероятностные характеристики</p>
     </div>
 
     <div class="calculation">
@@ -106,6 +104,10 @@
             {% if redundant_bits or group_code_vector %}
                 <span>Групповой кодовый вектор: {{ group_code_vector  }}</span>
             {% endif %}
+            {% if error_message %}
+                <span>Ошибка:</span>
+                <span>{{ error_message }}</span>
+            {% endif %}
             <p></p>
         </div>
         <div>
@@ -128,6 +130,27 @@
                 <input type="hidden" name="action" value="clear">
                 <button type="submit">Очистить данные</button>
             </form>
+            <p></p>
+        </div>
+        <div>
+            {% if output_string %}
+                <span>Синдромы:</span>
+                <span>{{ output_string }}</span>
+                <p>Вектор синдрома: {{ syndrome_vector }}</p>
+                <p>Ключ ошибки: {{ error_key }}</p>
+            {% endif %}
+            <p></p>
+        </div>
+        <div>
+            {% if output_vector %}
+                <span>Исправленный информационный вектор:</span>
+                <span>{{ output_vector }}</span>
+            {% endif %}
+            <p></p>
+            {% if error_message and output_vector %}
+                <span>Ошибка:</span>
+                <span>{{ error_message }}</span>
+            {% endif %}
         </div>
     </div>
 {% endblock %}

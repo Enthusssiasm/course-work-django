@@ -88,3 +88,41 @@ def generate_error_code(group_code_vector, error_vector):
     group_code_with_error = [str(int(group_code_vector[i]) ^ int(error_vector[i])) for i in range(len(group_code_vector))]
     return group_code_with_error
 
+
+def generate_group_code_dict(group_code_with_error):
+    group_code_dict = {}
+    for i in range(4):
+        group_code_dict[f"a{i + 1}"] = int(group_code_with_error[i])
+    for i in range(4):
+        group_code_dict[f"c{i + 1}"] = int(group_code_with_error[i + 4])
+    return group_code_dict
+
+
+def calculate_syndrome_vector(group_code_dict, syndrome_indices):
+    syndrome_vector = ''
+    output_lines = []
+
+    for idx, syndrome in enumerate(syndrome_indices, 1):
+        result = 0
+        for key in syndrome:
+            result ^= group_code_dict[key]
+        output_lines.append(f"S{idx} = {result}")
+        syndrome_vector += str(result)
+
+    output_string = '; '.join(output_lines)
+    return output_string, syndrome_vector
+
+
+def find_error_key(syndrome_vector, syndrome_table):
+    for key, value in syndrome_table.items():
+        if value == syndrome_vector:
+            return key
+    return None
+
+def correct_error(group_code_dict, error_key):
+    error_key = error_key.split('(')[1].strip(')')
+    group_code_dict[error_key] ^= 1
+    return group_code_dict
+
+def generate_output_vector(group_code_dict):
+    return ''.join(str(group_code_dict[f"a{i}"]) for i in range(1, 5))
